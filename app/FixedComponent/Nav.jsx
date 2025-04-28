@@ -4,7 +4,6 @@ import { IoMdSearch } from "react-icons/io";
 import { FaUser, FaShoppingCart } from "react-icons/fa";
 import { HiMenu, HiX } from "react-icons/hi";
 import Link from 'next/link';
-import { to } from './../../.next/server/chunks/ssr/[turbopack]_browser_dev_hmr-client_hmr-client_ts_59fa4ecd._';
 function Nav() {
     const [menuOpen, setMenuOpen] = useState(false)
     return (
