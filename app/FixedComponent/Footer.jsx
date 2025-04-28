@@ -27,9 +27,9 @@ export const Footer = () => {
                         <ul className="space-y-2">
                             <li>+201013774006</li>
                             <li>uosryamed23@gmail.com</li>
-                            <li className="flex space-x-4 mt-2">
-                                <a href="https://api.whatsapp.com/send?phone=201150998560" className="hover:text-gray-900 transition">Facebook</a>
-                                <a href="#" className="hover:text-gray-900 transition">WhatsApp</a>
+                            <li className=" flex flex-col space-x-4 mt-2">
+                                <a href="" className="hover:text-gray-900 transition">Facebook</a>
+                                <a href="https://api.whatsapp.com/send?phone=201013774006" className="hover:text-gray-900 transition">WhatsApp</a>
                             </li>
                         </ul>
                     </div>

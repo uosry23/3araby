@@ -4,6 +4,7 @@ import { IoMdSearch } from "react-icons/io";
 import { FaUser, FaShoppingCart } from "react-icons/fa";
 import { HiMenu, HiX } from "react-icons/hi";
 import Link from 'next/link';
+import { to } from './../../.next/server/chunks/ssr/[turbopack]_browser_dev_hmr-client_hmr-client_ts_59fa4ecd._';
 function Nav() {
     const [menuOpen, setMenuOpen] = useState(false)
     return (
@@ -41,8 +42,10 @@ function Nav() {
 
                     <div className="flex items-center space-x-4">
                         <IoMdSearch className="text-lg md:text-2xl" />
-                        <FaUser className="text-lg md:text-2xl" />
-                        <FaShoppingCart className="text-lg md:text-2xl" />
+                        <Link href={"/login"}>                        <FaUser className="text-lg md:text-2xl" />
+                        </Link>
+                        <Link href={"/cart"}><FaShoppingCart className="text-lg md:text-2xl" />
+                        </Link>
                         <button
                             className="md:hidden text-2xl"
                             onClick={() => setMenuOpen(!menuOpen)}
@@ -80,7 +83,7 @@ function Nav() {
                 )}
             </div>
 
-            <hr className="w-full border-t-3  mr-2" />        </div>
+            <hr className="w-full border-t-3  mr-2" />  </div>
     )
 }
 

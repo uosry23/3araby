@@ -268,8 +268,8 @@ const page = () => {
     }, [])
     return (clothes.length > 0 ? <div className='flex-column items-center gap-3'>
         <div className='flex justify-center mt=2 p-2 space-x-2'>
-            <span className='md:text-4xl text-gray-500 font-mono'>ALL</span >
-            <span className='md:text-4xl text=bg-black font-mono'>COLLECTIONS</span>
+            <span className='md:text-4xl text-2xl text-gray-500 font-mono'>ALL</span >
+            <span className='md:text-4xl text-2xl text=bg-black font-mono'>COLLECTIONS</span>
         </div>
         <div className='flex justify-start mt=2 p-2 md:text-xl space-x-2 font-bold'>FILTERS</div>
         <div className='md:flex md:space-x-6'>
@@ -346,13 +346,6 @@ const page = () => {
 
 
         </div>
-
-
-
-
-
-
-
 
 
     </div> : <Loading />)

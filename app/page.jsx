@@ -12,6 +12,7 @@ import { FaUser, FaShoppingCart } from "react-icons/fa";
 import { HiMenu, HiX } from "react-icons/hi";
 import { addDoc, collection, getDocs } from "firebase/firestore";
 import { db } from "@/config";
+import Loading from "@/component/loading";
 export default function Home() {
   var settings = {
     dots: true,
@@ -194,8 +195,9 @@ export default function Home() {
   }, []);
 
   return (
-    <div className=" w-full  ">
-      {Data.length > 0 &&
+
+    Data.length > 0 ?
+      <div className=" w-full  ">
 
         <div className="relative mt-3 h-[50vh] md:h-[90vh]  border-1 border-black bg-gray-300 overflow-hidden">
           <Slider {...settings}>
@@ -239,81 +241,86 @@ export default function Home() {
 
 
 
-        </div>}
-      <div className='flex justify-center mt=2 p-2 space-x-2'>
-        <span className='md:text-4xl text-gray-500 font-mono'>LATEST
-        </span >
-        <span className='md:text-4xl text=bg-black font-mono'>COLLECTIONS</span>
+        </div>
+        <div className='flex justify-center mt=2 p-2 space-x-2'>
+          <span className='md:text-4xl text-gray-500 font-mono'>LATEST
+          </span >
+          <span className='md:text-4xl text=bg-black font-mono'>COLLECTIONS</span>
 
-      </div>
-      <div className="flex justify-center text-shadow-black">
-        <span>
-          Explore our newest collection and be unique like our modern pieces
+        </div>
+        <div className="flex justify-center text-shadow-black">
+          <span>
+            Explore our newest collection and be unique like our modern pieces
 
-        </span>
-      </div>
+          </span>
+        </div>
 
-      <div className="flex flex-wrap ">
-        {GetLATEST_COLLECTION.map((item) => (
-          <div
-            className='flex flex-col items-center  w-1/2 md:w-1/4 p-4   '
-            key={item.id}
-          >
-            <img
-              src={item.img}
-              className="w-full h-64 object-cover hover:cursor-pointer hover:scale-105 duration-200"
-              loading='lazy'
-              width={300}
-              height={300}
-              alt={item.name}
-            />
-            <div className="text-center w-full">
-              <p className='text-gray-700 font-medium'>{item.name}</p>
-              <p className='font-bold text-lg mt-1'>{item.price}</p>
+        <div className="flex flex-wrap ">
+          {GetLATEST_COLLECTION.map((item) => (
+            <div
+              className='flex flex-col items-center  w-1/2 md:w-1/4 p-4   '
+              key={item.id}
+            >
+              <img
+                src={item.img}
+                className="w-full h-64 object-cover hover:cursor-pointer hover:scale-105 duration-200"
+                loading='lazy'
+                width={300}
+                height={300}
+                alt={item.name}
+              />
+              <div className="text-center w-full">
+                <p className='text-gray-700 font-medium'>{item.name}</p>
+                <p className='font-bold text-lg mt-1'>{item.price}</p>
+              </div>
             </div>
-          </div>
-        ))}
-      </div>
-      <div className='flex justify-center mt=2 p-2 space-x-2'>
-        <span className='md:text-4xl text-gray-500 font-mono'>BEST
+          ))}
+        </div>
+        <div className='flex justify-center mt=2 p-2 space-x-2'>
+          <span className='md:text-4xl text-gray-500 font-mono'>BEST
 
 
 
-        </span >
-        <span className='md:text-4xl text=bg-black font-mono'>SELLERS</span>
+          </span >
+          <span className='md:text-4xl text=bg-black font-mono'>SELLERS</span>
 
-      </div>
-      <div className="flex justify-center text-shadow-black">
-        <span>
-          Explore our best collection and our people's favourite pieces
+        </div>
+        <div className="flex justify-center text-shadow-black">
+          <span>
+            Explore our best collection and our people's favourite pieces
 
-        </span>
-      </div>
+          </span>
+        </div>
 
-      <div className="flex flex-wrap ">
-        {Bestsaller.map((item) => (
-          <div
-            className='flex flex-col items-center  w-1/2 md:w-1/4 p-4   '
-            key={item.id}
-          >
-            <img
-              src={item.img}
-              className="w-full h-64 object-cover hover:cursor-pointer hover:scale-105 duration-200"
-              loading='lazy'
-              width={300}
-              height={300}
-              alt={item.name}
-            />
-            <div className="text-center w-full">
-              <p className='text-gray-700 font-medium'>{item.name}</p>
-              <p className='font-bold text-lg mt-1'>{item.price}</p>
+        <div className="flex flex-wrap ">
+          {Bestsaller.map((item) => (
+            <div
+              className='flex flex-col items-center  w-1/2 md:w-1/4 p-4   '
+              key={item.id}
+            >
+              <img
+                src={item.img}
+                className="w-full h-64 object-cover hover:cursor-pointer hover:scale-105 duration-200"
+                loading='lazy'
+                width={300}
+                height={300}
+                alt={item.name}
+              />
+              <div className="text-center w-full">
+                <p className='text-gray-700 font-medium'>{item.name}</p>
+                <p className='font-bold text-lg mt-1'>{item.price}</p>
+              </div>
             </div>
-          </div>
-        ))}
+          ))}
+        </div>
+
       </div>
 
-    </div>
+      : <Loading />
+  )
 
 
-  );
+
+
+
 }

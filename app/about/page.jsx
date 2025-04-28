@@ -1,6 +1,5 @@
 'use client'
 import React from 'react'
-
 const Page = () => {
     return (
         <div className='flex flex-col items-center justify-center mt-10 min-h-screen w-full space-y-10 px-4'>
