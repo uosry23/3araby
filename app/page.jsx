@@ -13,6 +13,8 @@ import { HiMenu, HiX } from "react-icons/hi";
 import { addDoc, collection, getDocs } from "firebase/firestore";
 import { db } from "@/config";
 import Loading from "@/component/loading";
+import Link from "next/link";
+import { Button } from "@material-tailwind/react";
 export default function Home() {
   var settings = {
     dots: true,
