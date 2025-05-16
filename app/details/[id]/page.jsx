@@ -1,14 +1,19 @@
 
 'use client'
-import React, { useEffect, useLayoutEffect, useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { products } from '../../collection/getCollection'
 import { useParams } from 'next/navigation';
 import Loading from '@/component/loading';
+import { useCart } from '@/context/CartContext';
+import { toast } from 'react-hot-toast';
 function page() {
     const params = useParams();
-    const id = params?.id;    // console.log(params.id);
-    const [item, setItem] = useState({})
+    const id = params?.id;
+    const [item, setItem] = useState({});
     const [selectedSize, setSelectedSize] = useState('M');
+    const [quantity, setQuantity] = useState(1);
+    const [isAddingToCart, setIsAddingToCart] = useState(false);
+    const { addToCart } = useCart();
 
     const sizes = ['S', 'M', 'L', 'XL', 'XXL'];
     const getItem = () => {
@@ -62,8 +67,39 @@ function page() {
                     </div>
                 </div>
 
-                <button className="bg-black text-white px-6 py-3 rounded hover:opacity-90 transition mb-6">
-                    ADD TO CART
+                <div className="mb-6">
+                    <h3 className="font-semibold mb-2">Quantity</h3>
+                    <div className="flex items-center">
+                        <button
+                            onClick={() => quantity > 1 && setQuantity(quantity - 1)}
+                            className="px-3 py-1 border rounded-l bg-gray-100"
+                        >
+                            -
+                        </button>
+                        <span className="px-4 py-1 border-t border-b">
+                            {quantity}
+                        </span>
+                        <button
+                            onClick={() => setQuantity(quantity + 1)}
+                            className="px-3 py-1 border rounded-r bg-gray-100"
+                        >
+                            +
+                        </button>
+                    </div>
+                </div>
+
+                <button
+                    className={`bg-black text-white px-6 py-3 rounded hover:opacity-90 transition mb-6 ${isAddingToCart ? 'opacity-70 cursor-not-allowed' : ''}`}
+                    onClick={() => {
+                        setIsAddingToCart(true);
+                        setTimeout(() => {
+                            addToCart(item, quantity, selectedSize);
+                            setIsAddingToCart(false);
+                        }, 500);
+                    }}
+                    disabled={isAddingToCart}
+                >
+                    {isAddingToCart ? 'ADDING...' : 'ADD TO CART'}
                 </button>
 
                 <div className="text-sm text-gray-500 space-y-1">

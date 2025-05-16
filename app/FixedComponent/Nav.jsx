@@ -7,11 +7,13 @@ import { FaUser, FaShoppingCart, FaSignOutAlt } from "react-icons/fa";
 import { HiMenu, HiX } from "react-icons/hi";
 import Link from 'next/link';
 import { useAuth } from '@/context/AuthContext';
+import { useCart } from '@/context/CartContext';
 
 function Nav() {
     const [menuOpen, setMenuOpen] = useState(false);
     const { user, logout } = useAuth();
-    
+    const { cartCount } = useCart();
+
     return (
         <div>
             <div className="w-full p-3 rounded-5">
@@ -45,7 +47,7 @@ function Nav() {
 
                     <div className="flex items-center space-x-4">
                         <IoMdSearch className="text-lg md:text-2xl" />
-                        
+
                         {user ? (
                             <div className="flex items-center space-x-3">
                                 <span className="hidden md:inline text-sm">{user.displayName || user.email}</span>
@@ -58,11 +60,16 @@ function Nav() {
                                 <FaUser className="text-lg md:text-2xl" />
                             </Link>
                         )}
-                        
-                        <Link href="/cart">
+
+                        <Link href="/cart" className="relative">
                             <FaShoppingCart className="text-lg md:text-2xl" />
+                            {cartCount > 0 && (
+                                <span className="absolute -top-2 -right-2 bg-black text-white text-xs rounded-full h-5 w-5 flex items-center justify-center">
+                                    {cartCount}
+                                </span>
+                            )}
                         </Link>
-                        
+
                         <button
                             className="md:hidden text-2xl"
                             onClick={() => setMenuOpen(!menuOpen)}

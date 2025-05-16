@@ -1,10 +1,10 @@
 'use client';
 
 import { createContext, useContext, useEffect, useState } from 'react';
-import { 
-    createUserWithEmailAndPassword, 
-    signInWithEmailAndPassword, 
-    signOut, 
+import {
+    createUserWithEmailAndPassword,
+    signInWithEmailAndPassword,
+    signOut,
     onAuthStateChanged,
     sendPasswordResetEmail,
     updateProfile
@@ -48,17 +48,17 @@ export const AuthProvider = ({ children }) => {
     const signup = async (email, password, name) => {
         setLoading(true);
         setError('');
-        
+
         try {
             const userCredential = await createUserWithEmailAndPassword(auth, email, password);
-            
+
             // Update profile with name
             if (name) {
                 await updateProfile(userCredential.user, {
                     displayName: name
                 });
             }
-            
+
             return userCredential.user;
         } catch (error) {
             setError(error.message);
@@ -73,7 +73,7 @@ export const AuthProvider = ({ children }) => {
     const login = async (email, password) => {
         setLoading(true);
         setError('');
-        
+
         try {
             const userCredential = await signInWithEmailAndPassword(auth, email, password);
             return userCredential.user;
@@ -90,7 +90,7 @@ export const AuthProvider = ({ children }) => {
     const logout = async () => {
         setLoading(true);
         setError('');
-        
+
         try {
             await signOut(auth);
         } catch (error) {
@@ -101,11 +101,10 @@ export const AuthProvider = ({ children }) => {
         }
     };
 
-    // Reset password function
     const resetPassword = async (email) => {
         setLoading(true);
         setError('');
-        
+
         try {
             await sendPasswordResetEmail(auth, email);
             return true;
