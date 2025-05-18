@@ -69,30 +69,29 @@ export const CartProvider = ({ children }) => {
     // Add item to cart
     const addToCart = (product, quantity = 1, size = 'M') => {
         setCartItems(prevItems => {
-            // Check if item already exists in cart
             const existingItemIndex = prevItems.findIndex(
                 item => item.id === product.id && item.size === size
             );
 
             let result;
             if (existingItemIndex > -1) {
-                // Update quantity if item exists
                 const updatedItems = [...prevItems];
-                updatedItems[existingItemIndex].quantity += quantity;
+                const updatedItem = {
+                    ...updatedItems[existingItemIndex],
+                    quantity: updatedItems[existingItemIndex].quantity + quantity
+                };
+                updatedItems[existingItemIndex] = updatedItem;
                 result = updatedItems;
 
-                // Show toast outside of state update
                 setTimeout(() => toast.success('Item quantity updated in cart'), 0);
             } else {
-                // Add new item if it doesn't exist
                 result = [...prevItems, { ...product, quantity, size }];
-
-                // Show toast outside of state update
                 setTimeout(() => toast.success('Item added to cart'), 0);
             }
             return result;
         });
     };
+
 
     // Remove item from cart
     const removeFromCart = (productId, size) => {

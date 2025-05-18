@@ -2,10 +2,11 @@
 'use client'
 import React, { useEffect, useState } from 'react'
 import { products } from '../../collection/getCollection'
-import { useParams } from 'next/navigation';
+import { redirect, useParams } from 'next/navigation';
 import Loading from '@/component/loading';
 import { useCart } from '@/context/CartContext';
 import { toast } from 'react-hot-toast';
+import { getAuth } from 'firebase/auth';
 function page() {
     const params = useParams();
     const id = params?.id;
@@ -14,6 +15,7 @@ function page() {
     const [quantity, setQuantity] = useState(1);
     const [isAddingToCart, setIsAddingToCart] = useState(false);
     const { addToCart } = useCart();
+    const chekUser = getAuth()
 
     const sizes = ['S', 'M', 'L', 'XL', 'XXL'];
     const getItem = () => {
@@ -30,6 +32,19 @@ function page() {
         // console.log(id);
 
     }, [item])
+    const handelAddTocart = () => {
+        console.log(chekUser.currentUser);
+        if (chekUser.currentUser) {
+
+            setIsAddingToCart(true);
+            setTimeout(() => {
+                addToCart(item, quantity, selectedSize);
+                setIsAddingToCart(false);
+            }, 500);
+        }
+        else
+            redirect('/login')
+    }
     return (
         item.name ? <div className="flex flex-col lg:flex-row p-8 gap-8 max-w-6xl mx-auto">
             <div className="w-full lg:w-1/2">
@@ -90,13 +105,7 @@ function page() {
 
                 <button
                     className={`bg-black text-white px-6 py-3 rounded hover:opacity-90 transition mb-6 ${isAddingToCart ? 'opacity-70 cursor-not-allowed' : ''}`}
-                    onClick={() => {
-                        setIsAddingToCart(true);
-                        setTimeout(() => {
-                            addToCart(item, quantity, selectedSize);
-                            setIsAddingToCart(false);
-                        }, 500);
-                    }}
+                    onClick={() => { handelAddTocart() }}
                     disabled={isAddingToCart}
                 >
                     {isAddingToCart ? 'ADDING...' : 'ADD TO CART'}
