@@ -279,4 +279,122 @@ export const products = [
     }
 ];
 
+export const BestSaller = [{
+    id: 1,
+    name: "Girls Round Neck Cotton Top",
+    image: img5,
+    price: 19.99,
+    category: "Kids",
+    type: "Topwear",
+    description: "Soft round neck cotton top for girls"
+},
+{
+    id: 2,
+    name: "Men Round Neck Pure Cotton T-shirt",
+    image: img12,
+    price: 24.99,
+    category: "Men",
+    type: "Topwear",
+    description: "Breathable pure cotton T-shirt for men"
+},
+{
+    id: 3,
+    name: "Boy Round Neck Pure Cotton T-shirt",
+    image: img18,
+    price: 17.99,
+    category: "Kids",
+    type: "Topwear",
+    description: "Durable cotton T-shirt for boys"
+},
+{
+    id: 4,
+    name: "Women Zip-Front Relaxed Fit Jacket",
+    image: img21,
+    price: 49.99,
+    category: "Women",
+    type: "Winterwear",
+    description: "Casual zip-front jacket with relaxed fit"
+},
+{
+    id: 5,
+    name: "Women Cotton Floral Dress",
+    image: img1,
+    price: 34.99,
+    category: "Women",
+    type: "Topwear",
+    description: "Lightweight floral dress perfect for summer"
+},
+]
 
+export const LATEST_COLLECTIONS = [{
+    id: 18,
+    name: "Women Silk Scarf",
+    image: img34,
+    price: 12.99,
+    category: "Women",
+    type: "Winterwear",
+    description: "Elegant silk scarf"
+},
+{
+    id: 19,
+    name: "boy Cotton Underwear",
+    image: img19,
+    price: 8.99,
+    category: "Kids",
+    type: "Bottomwear",
+    description: "Breathable cotton underwear"
+},
+{
+    id: 20,
+    name: "Girls Cotton Socks",
+    image: img16,
+    price: 5.99,
+    category: "Kids",
+    type: "Bottomwear",
+    description: "Soft cotton socks"
+},
+{
+    id: 21,
+    name: "Women Leather ",
+    image: img26,
+    price: 45.99,
+    category: "Women",
+    type: "Winterwear",
+    description: "Genuine leather "
+},
+{
+    id: 22,
+    name: "Men Winter Gloves",
+    image: img28,
+    price: 11.99,
+    category: "Men",
+    type: "Winterwear",
+    description: "Warm winter gloves"
+},
+{
+    id: 23,
+    name: "Boy Cotton Pajamas",
+    image: img19,
+    price: 16.99,
+    category: "Kids",
+    type: "Topwear",
+    description: "Comfortable cotton pajamas"
+},
+{
+    id: 24,
+    name: "Gril Cotton Blouse",
+    image: img3,
+    price: 29.99,
+    category: "Kids",
+    type: "Topwear",
+    description: "Elegant cotton blouse"
+},
+{
+    id: 25,
+    name: "Men Formal Dress Shirt",
+    image: img39,
+    price: 34.99,
+    category: "Men",
+    type: "Topwear",
+    description: "Classic formal dress shirt"
+}]

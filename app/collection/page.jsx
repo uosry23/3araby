@@ -1,12 +1,12 @@
 'use client'
 import { input } from '@material-tailwind/react';
 import React, { useEffect, useState } from 'react'
-import img1 from '../../assets/img1.jpg'
-import Image from 'next/image';
 import { db } from '@/config';
 import { products } from './getCollection';
 import Loading from '@/component/loading';
 import Link from 'next/link';
+import { motion } from 'framer-motion';
+
 const page = () => {
     const categories = ["Women", "Kids", "Men"];
     const [selected, setSelected] = useState([]);
@@ -14,7 +14,6 @@ const page = () => {
     const [clothes, setclothes] = useState(products);
     const type = ["Topwear", 'Bottomwear', "Winterwear"];
 
-    // Calculate the maximum price from products for the price range slider
     const maxProductPrice = Math.ceil(Math.max(...products.map(product => product.price)));
     const [priceRange, setPriceRange] = useState({ min: 0, max: maxProductPrice });
 
@@ -24,9 +23,8 @@ const page = () => {
                 ? prev.filter((item) => item !== category)
                 : [...prev, category]
         );
-
-
     };
+
     const handleCheckType = (category) => {
         setSelected2((prev) =>
             prev.includes(category)
@@ -37,16 +35,13 @@ const page = () => {
 
     const handlePriceChange = (type, value) => {
         const numValue = Number(value);
-
         setPriceRange(prev => {
             if (type === 'min') {
-                // Ensure min doesn't exceed max
                 return {
                     ...prev,
                     min: Math.min(numValue, prev.max)
                 };
             } else {
-                // Ensure max isn't less than min
                 return {
                     ...prev,
                     max: Math.max(numValue, prev.min)
@@ -74,124 +69,163 @@ const page = () => {
     }, [selected, selected2, priceRange]);
 
     return (load ? <div className='flex-column items-center gap-3'>
-        <div className='flex justify-center mt=2 p-2 space-x-2'>
-            <span className='md:text-4xl text-2xl text-gray-500 font-mono'>ALL</span >
-            <span className='md:text-4xl text-2xl text=bg-black font-mono'>COLLECTIONS</span>
-        </div>
-        <div className='flex justify-start mt=2 p-2 md:text-xl space-x-2 font-bold'>FILTERS</div>
-        <div className='md:flex md:space-x-6'>
-            <div className='flex-col flex items-start justify-start space-y-6 md:w-1/4'>
+        <motion.div
+            className="text-center py-12"
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.5 }}
+        >
+            <h1 className="text-3xl md:text-5xl font-bold mb-3 relative inline-block">
+                <span className="relative z-10">ALL COLLECTIONS</span>
+                <span className="absolute -bottom-2 left-0 w-full h-1 bg-black/80"></span>
+            </h1>
+            <p className="text-gray-600 max-w-2xl mx-auto mt-4">
+                Browse our complete catalog and find your perfect style
+            </p>
+        </motion.div>
+        <div className='container mx-auto px-4'>
+            <div className='md:flex md:space-x-6'>
+                <div className='flex-col flex items-start justify-start space-y-6 md:w-1/4'>
+                    <h2 className='text-xl font-bold mb-2 border-b pb-2'>FILTERS</h2>
 
-                <div className="w-full p-4 bg-white rounded-3 shadow-md">
-                    <h2 className="text-lg font-semibold mb-3">Category</h2>
-                    <div className="flex flex-col space-y-2">
-                        {categories.map((category) => (
-                            <label
-                                key={category}
-                                className="inline-flex items-center space-x-2 cursor-pointer"
-                            >
-                                <input
-                                    type="checkbox"
-                                    checked={selected.includes(category)}
-                                    onChange={() => handleCheck(category)}
-                                    className="form-checkbox h-5 w-5 text-fuchsia-950"
-                                />
-                                <span className="text-gray-800">{category}</span>
-                            </label>
-                        ))}
-                    </div>
-
-
-                </div>
-                <div className='w-full p-4 bg-white rounded-3 shadow-md'>
-                    <h2 className='text-lg font-semibold mb-3' >Type</h2>
-                    <div className='flex flex-col space-y-2'>
-                        {type.map((category) => (
-                            <span
-                                key={category}
-                                className="inline-flex items-center space-x-2 cursor-pointer"
-                            >
-                                <input
-                                    type="checkbox"
-                                    checked={selected2.includes(category)}
-                                    onChange={() => handleCheckType(category)}
-                                    className="form-checkbox h-5 w-5 text-fuchsia-950"
-                                />
-                                <span className="text-gray-800">{category}</span>
-                            </span>
-                        ))}
-                    </div>
-                </div>
-
-                <div className='w-full p-4 bg-white rounded-3 shadow-md'>
-                    <h2 className='text-lg font-semibold mb-3'>Price Range</h2>
-                    <div className='text-center mb-3 text-sm font-medium text-gray-700'>
-                        ${priceRange.min.toFixed(2)} - ${priceRange.max.toFixed(2)}
-                    </div>
-                    <div className='flex flex-col space-y-4'>
-                        <div>
-                            <label className="block text-sm font-medium text-gray-700 mb-1">
-                                Min Price: ${priceRange.min}
-                            </label>
-                            <input
-                                type="range"
-                                min="0"
-                                max={maxProductPrice}
-                                value={priceRange.min}
-                                onChange={(e) => handlePriceChange('min', e.target.value)}
-                                className="w-full h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer"
-                            />
+                    <motion.div
+                        className="w-full p-5 bg-white rounded-lg shadow-sm border border-gray-100"
+                        initial={{ opacity: 0, y: 20 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        transition={{ duration: 0.3 }}
+                    >
+                        <h2 className="text-lg font-semibold mb-4 pb-2 border-b">Category</h2>
+                        <div className="flex flex-col space-y-3">
+                            {categories.map((category) => (
+                                <label
+                                    key={category}
+                                    className="inline-flex items-center space-x-3 cursor-pointer group"
+                                >
+                                    <div className="relative">
+                                        <input
+                                            type="checkbox"
+                                            checked={selected.includes(category)}
+                                            onChange={() => handleCheck(category)}
+                                            className="form-checkbox h-5 w-5 text-black border-2 border-gray-300 rounded transition-colors duration-200 ease-in-out focus:ring-0 focus:outline-none"
+                                        />
+                                    </div>
+                                    <span className="text-gray-700 group-hover:text-black transition-colors duration-200">{category}</span>
+                                </label>
+                            ))}
                         </div>
-                        <div>
-                            <label className="block text-sm font-medium text-gray-700 mb-1">
-                                Max Price: ${priceRange.max}
-                            </label>
-                            <input
-                                type="range"
-                                min="0"
-                                max={maxProductPrice}
-                                value={priceRange.max}
-                                onChange={(e) => handlePriceChange('max', e.target.value)}
-                                className="w-full h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer"
-                            />
+                    </motion.div>
+
+                    <motion.div
+                        className="w-full p-5 bg-white rounded-lg shadow-sm border border-gray-100"
+                        initial={{ opacity: 0, y: 20 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        transition={{ duration: 0.3, delay: 0.1 }}
+                    >
+                        <h2 className="text-lg font-semibold mb-4 pb-2 border-b">Type</h2>
+                        <div className="flex flex-col space-y-3">
+                            {type.map((category) => (
+                                <label
+                                    key={category}
+                                    className="inline-flex items-center space-x-3 cursor-pointer group"
+                                >
+                                    <div className="relative">
+                                        <input
+                                            type="checkbox"
+                                            checked={selected2.includes(category)}
+                                            onChange={() => handleCheckType(category)}
+                                            className="form-checkbox h-5 w-5 text-black border-2 border-gray-300 rounded transition-colors duration-200 ease-in-out focus:ring-0 focus:outline-none"
+                                        />
+                                    </div>
+                                    <span className="text-gray-700 group-hover:text-black transition-colors duration-200">{category}</span>
+                                </label>
+                            ))}
                         </div>
-                    </div>
-                </div>
+                    </motion.div>
 
-            </div>
-            <div className="flex-wrap flex justify-between  md:ml-2 md:w-full mt-4">
-                {clothes.map((item) => (
-
-                    <Link href={`/details/${item.id}`} className='flex flex-col items-center  w-1/2 md:w-1/4 p-4 ' key={item.id}>
-
-                        <div
-                            className='  '
-                            key={item.id}
-                        >
-                            <img
-                                src={item.image.src}
-                                className="w-full h-64 object-cover hover:cursor-pointer hover:scale-105 duration-200"
-                                loading='lazy'
-                                width={300}
-                                height={300}
-                                alt={item.name}
-                            />
-                            <div className="text-center w-full">
-                                <p className='text-gray-700 font-medium'>{item.name}</p>
-                                <p className='text-gray-500 text-sm'>{item.description}</p>
-                                <p className='font-bold text-lg mt-1'>${item.price.toFixed(2)}</p>
+                    <motion.div
+                        className="w-full p-5 bg-white rounded-lg shadow-sm border border-gray-100"
+                        initial={{ opacity: 0, y: 20 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        transition={{ duration: 0.3, delay: 0.2 }}
+                    >
+                        <h2 className="text-lg font-semibold mb-4 pb-2 border-b">Price Range</h2>
+                        <div className="text-center mb-4 font-medium">
+                            <span className="text-lg">${priceRange.min.toFixed(2)} - ${priceRange.max.toFixed(2)}</span>
+                        </div>
+                        <div className="flex flex-col space-y-6">
+                            <div>
+                                <div className="flex justify-between mb-2">
+                                    <label className="text-sm font-medium text-gray-600">
+                                        Min Price
+                                    </label>
+                                    <span className="text-sm font-medium">${priceRange.min}</span>
+                                </div>
+                                <input
+                                    type="range"
+                                    min="0"
+                                    max={maxProductPrice}
+                                    value={priceRange.min}
+                                    onChange={(e) => handlePriceChange('min', e.target.value)}
+                                    className="w-full h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer accent-black"
+                                />
+                            </div>
+                            <div>
+                                <div className="flex justify-between mb-2">
+                                    <label className="text-sm font-medium text-gray-600">
+                                        Max Price
+                                    </label>
+                                    <span className="text-sm font-medium">${priceRange.max}</span>
+                                </div>
+                                <input
+                                    type="range"
+                                    min="0"
+                                    max={maxProductPrice}
+                                    value={priceRange.max}
+                                    onChange={(e) => handlePriceChange('max', e.target.value)}
+                                    className="w-full h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer accent-black"
+                                />
                             </div>
                         </div>
+                    </motion.div>
 
-                    </Link>
-                ))}
+                </div>
+                <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6 md:ml-2 md:w-full mt-4">
+                    {clothes.map((item) => (
+                        <Link href={`/details/${item.id}`} key={item.id}>
+                            <motion.div
+                                className="group relative bg-white rounded-lg overflow-hidden shadow-sm hover:shadow-md transition-all duration-300"
+                                whileHover={{ y: -5 }}
+                                initial={{ opacity: 0, y: 20 }}
+                                animate={{ opacity: 1, y: 0 }}
+                                transition={{ duration: 0.3 }}
+                            >
+                                <div className="relative h-64 overflow-hidden">
+                                    <img
+                                        src={item.image.src}
+                                        className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
+                                        loading="lazy"
+                                        alt={item.name}
+                                    />
+                                    <div className="absolute inset-0 bg-opacity-0 group-hover:bg-opacity-10 transition-all duration-300"></div>
+                                    <div className="absolute bottom-0 left-0 right-0 p-4 bg-gradient-to-t from-black/60 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                                        <button className="w-full bg-white text-black py-2 rounded-md font-medium text-sm">
+                                            Quick View
+                                        </button>
+                                    </div>
+                                </div>
+                                <div className="p-4">
+                                    <p className="text-gray-500 text-xs mb-1">{item.category}</p>
+                                    <h3 className="font-medium text-gray-900 mb-1 truncate">{item.name}</h3>
+                                    <p className="text-gray-500 text-sm line-clamp-1">{item.description}</p>
+                                    <p className="font-bold text-black mt-1">${item.price.toFixed(2)}</p>
+                                </div>
+                            </motion.div>
+                        </Link>
+                    ))}
+                </div>
             </div>
-
-
         </div>
+    </div> : <Loading />);
+};
 
-
-    </div> : <Loading />)
-}
-
-export default page
+export default page;

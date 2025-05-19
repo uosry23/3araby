@@ -2,19 +2,14 @@
 import Slider from "react-slick";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
-import img1 from '../assets/image.jpg'
-import img2 from '../assets/image2.jpg'
-import img3 from '../assets/hand-drawn-fashion-shop-pattern-background_23-2150849915.avif'
-import Image from "next/image";
 import { useEffect, useState } from "react";
-import { IoMdSearch } from "react-icons/io";
-import { FaUser, FaShoppingCart } from "react-icons/fa";
-import { HiMenu, HiX } from "react-icons/hi";
 import { addDoc, collection, getDocs } from "firebase/firestore";
 import { db } from "@/config";
 import Loading from "@/component/loading";
 import Link from "next/link";
-import { Button } from "@material-tailwind/react";
+import { motion } from "framer-motion";
+import { BestSaller } from "./collection/getCollection";
+import { LATEST_COLLECTIONS } from "./collection/getCollection";
 export default function Home() {
   var settings = {
     dots: true,
@@ -25,133 +20,9 @@ export default function Home() {
 
   };;
   const [Data, setData] = useState([])
-  const ArrayOfLATEST_COLLECTION = [
-    {
-      "name": "Cloudknit Sweater",
-      "price": "$45.99",
-      "info": "Feather-light and impossibly soft",
-      "category": "women",
-      "type": "Topwear",
-      "img": "https://images.unsplash.com/photo-1551232864-3f0890e580d9?ixlib=rb-4.0.3&q=85&fm=jpg&crop=entropy&cs=srgb&bg=gray"
-    },
-    {
-      "name": "Rugged Timber Jacket",
-      "price": "$129.99",
-      "info": "Waxed canvas for all-weather protection",
-      "category": "men",
-      "type": "Winterwear",
-      "img": "https://images.unsplash.com/photo-1591047139829-d91aecb6caea?ixlib=rb-4.0.3&q=85&fm=jpg&crop=entropy&cs=srgb&bg=gray"
-    },
-    {
-      "name": "Sunbleached Denim",
-      "price": "$59.95",
-      "info": "Vintage wash with perfect distressing",
-      "category": "men",
-      "type": "Bottomwear",
-      "img": "https://images.unsplash.com/photo-1541099649105-f69ad21f3246?ixlib=rb-4.0.3&q=85&fm=jpg&crop=entropy&cs=srgb&bg=gray"
-    },
-    {
-      "name": "Starlight Tutu Dress",
-      "price": "$38.50",
-      "info": "Twirl-worthy for little dreamers",
-      "category": "kids",
-      "type": "Topwear",
-      "img": "https://images.unsplash.com/photo-1596704017256-8eef1ffb1722?ixlib=rb-4.0.3&q=85&fm=jpg&crop=entropy&cs=srgb&bg=gray"
-    },
-    {
-      "name": "Marble Lounge Pants",
-      "price": "$34.99",
-      "info": "Buttery soft with artistic print",
-      "category": "women",
-      "type": "Bottomwear",
-      "img": "https://images.unsplash.com/photo-1584917865442-de89df76afd3?ixlib=rb-4.0.3&q=85&fm=jpg&crop=entropy&cs=srgb&bg=gray"
-    },
-    {
-      "name": "Neon Racer Tee",
-      "price": "$22.99",
-      "info": "Vibrant colors that pop",
-      "category": "kids",
-      "type": "Topwear",
-      "img": "https://images.unsplash.com/photo-1527719327859-c6ce80353573?ixlib=rb-4.0.3&q=85&fm=jpg&crop=entropy&cs=srgb&bg=gray"
-    },
-    {
-      "name": "Alpine Fleece Pullover",
-      "price": "$65.00",
-      "info": "Toasty warm for mountain adventures",
-      "category": "men",
-      "type": "Winterwear",
-      "img": "https://images.unsplash.com/photo-1614249216823-7b4895e000b2?ixlib=rb-4.0.3&q=85&fm=jpg&crop=entropy&cs=srgb&bg=gray"
-    },
-    {
-      "name": "Seashell Wrap Blouse",
-      "price": "$42.75",
-      "info": "Flowy elegance for beach to brunch",
-      "category": "women",
-      "type": "Topwear",
-      "img": "https://images.unsplash.com/photo-1585487000160-6ebcfceb0d03?ixlib=rb-4.0.3&q=85&fm=jpg&crop=entropy&cs=srgb&bg=gray"
-    },
-    {
-      "name": "Cargo Jogger Hybrid",
-      "price": "$49.95",
-      "info": "Utility meets comfort with smart pockets",
-      "category": "men",
-      "type": "Bottomwear",
-      "img": "https://images.unsplash.com/photo-1624378439575-d8705ad7ae80?ixlib=rb-4.0.3&q=85&fm=jpg&crop=entropy&cs=srgb&bg=gray"
-    },
-    {
-      "name": "Marshmallow Puffer Vest",
-      "price": "$58.99",
-      "info": "Plush insulation without bulk",
-      "category": "kids",
-      "type": "Winterwear",
-      "img": "https://images.unsplash.com/photo-1620231109648-302d034cb29b?ixlib=rb-4.0.3&q=85&fm=jpg&crop=entropy&cs=srgb&bg=gray"
-    }
-  ]
-  const [Bestsaller, SetBestsaller] = useState([])
-  const BESTSELLERS = [
-    {
-      name: " Men Round Neck Pure Cotton T- shirt",
-      price: "$150",
-      img: "https://decathlon.com.gh/cdn/shop/files/4f6a7b5f3a6175b15504284358575165_675x.progressive.jpg?v=1717164823"
-    }
-    , {
-      name: "Women Round Neck Cotton Top",
-      price: "$250",
-      img: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ9kbPabTCgFXvDg1Kz7VzoZ9JhpsxIvLNE_Q&s"
-    }
-    , {
-      name: "Girls Round Neck Cotton Top",
-      price: "$150",
-      img: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRevBTDVZzomyA7WR_LlK8Vr316mTvOkI5A0w&s"
-    }, {
-      name: "Men Round Neck Pure Cotton T-shirt",
-      price: "$100",
-      img: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQz740MsyW1DUXLAMp1AWQHWgMapUrSdDcFGw&s"
-    },
-    {
-      name: "Men Round Neck Pure Cotton T-shirt",
-      price: "$100",
-      img: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQz740MsyW1DUXLAMp1AWQHWgMapUrSdDcFGw&s"
-    }
-  ]
 
 
-  const [GetLATEST_COLLECTION, SetLATEST_COLLECTION] = useState([])
-  async function SET_LATEST_COLLECTION() {
 
-    const Lates = collection(db, "LATEST_COLLECTION ")
-    try {
-      for (const item of ArrayOfLATEST_COLLECTION) {
-        await addDoc(Lates, item)
-      }
-      console.log("add done");
-
-    }
-    catch (error) {
-      console.log(error);
-    }
-
-  }
   async function GetBg() {
     try {
       const Data1 = await getDocs(collection(db, 'HomeBG'))
@@ -165,164 +36,172 @@ export default function Home() {
     catch (Error) {
       console.log(Error);
     }
-  }
-  async function Get_LATEST_COLLECTION() {
-    const latest = await getDocs(collection(db, 'LATEST_COLLECTION'))
-
-    const products = latest.docs.map((item) => ({
-      id: item.id,
-      ...item.data()
-    }))
-    SetLATEST_COLLECTION(products)
-  }
-  async function GetBestSaller() {
-    const best = await getDocs(collection(db, "BESTSELLAR"))
-    const dataofbest = best.docs.map((doc) => ({
-      id: doc.id,
-      ...doc.data()
-    }))
-
-    SetBestsaller(dataofbest)
-  }
-
-  useEffect(() => {
+  } useEffect(() => {
     GetBg()
-    // SET_LATEST_COLLECTION()
-    Get_LATEST_COLLECTION()
-    // console.log(ArrayOfLATEST_COLLECTION.length);
-    GetBestSaller()
+  }, [])
 
 
-
-  }, []);
 
   return (
+    <>
+      {Data.length > 0 ? (
+        <div className="w-full">
+          {/* Hero Slider */}
+          <div className="relative h-[60vh] md:h-[80vh] lg:h-[90vh] overflow-hidden">
+            <Slider {...settings}>
+              {[
+                "https://firebasestorage.googleapis.com/v0/b/forever-ca320.appspot.com/o/mainPictures%2F2147825037.webp?alt=media&token=4e4e8af7-59cc-48ac-918b-c2d04234890f",
+                "https://firebasestorage.googleapis.com/v0/b/forever-ca320.appspot.com/o/mainPictures%2F2148760653.webp?alt=media&token=ab847652-a336-4068-8698-7d8232d0c79e",
+                "https://firebasestorage.googleapis.com/v0/b/forever-ca320.appspot.com/o/mainPictures%2F2148624967.webp?alt=media&token=854285a7-7e77-4d00-833b-2615cf338dcd"
+              ].map((src, index) => (
+                <div key={index} className="relative h-[60vh] md:h-[80vh] lg:h-[90vh]">
+                  <img
+                    src={src}
+                    loading="lazy"
+                    alt={`Slide ${index + 1}`}
+                    className="object-cover w-full h-full"
+                  />
+                  <div className="absolute inset-0 bg-gradient-to-r from-black/40 to-transparent"></div>
+                </div>
+              ))}
+            </Slider>
 
-    Data.length > 0 ?
-      <div className=" w-full  ">
-
-        <div className="relative mt-3 h-[50vh] md:h-[90vh]  border-1 border-black bg-gray-300 overflow-hidden">
-          <Slider {...settings}>
-            <div className="flex justify-start  h-[100vh] md:h-[90vh]"   >
-              <img
-                src="https://firebasestorage.googleapis.com/v0/b/forever-ca320.appspot.com/o/mainPictures%2F2147825037.webp?alt=media&token=4e4e8af7-59cc-48ac-918b-c2d04234890f"
-                loading="lazy"
-                alt="img1"
-                className=" object-cover w-full h-full "
-              />
+            {/* Overlay Text */}
+            <div className="absolute top-1/2 left-8 md:left-16 transform -translate-y-1/2 z-20 text-left max-w-md">
+              <motion.div
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.8, delay: 0.2 }}
+              >
+                <span className="block text-sm md:text-lg lg:text-xl text-white font-light tracking-wider mb-2">
+                  DISCOVER OUR COLLECTION
+                </span>
+                <h1 className="text-3xl md:text-5xl lg:text-6xl text-white font-bold leading-tight mb-4">
+                  Latest Arrivals
+                </h1>
+                <p className="text-white/80 mb-6 hidden md:block">
+                  Explore our newest styles and find your perfect look
+                </p>
+                <Link href="/collection">
+                  <button className="bg-white text-black px-6 py-3 rounded-md hover:bg-black hover:text-white transition-all duration-300 font-medium">
+                    SHOP NOW
+                  </button>
+                </Link>
+              </motion.div>
             </div>
-            <div className="flex justify-start  h-[100vh] md:h-[90vh]"   >
-              <img
-                src="https://firebasestorage.googleapis.com/v0/b/forever-ca320.appspot.com/o/mainPictures%2F2148760653.webp?alt=media&token=ab847652-a336-4068-8698-7d8232d0c79e"
-                loading="lazy"
-                alt="img1"
-                className=" object-cover w-full h-full "
-              />
-            </div>
-            <div className="flex justify-start  h-[100vh] md:h-[90vh]"   >
-              <img
-                src="https://firebasestorage.googleapis.com/v0/b/forever-ca320.appspot.com/o/mainPictures%2F2148624967.webp?alt=media&token=854285a7-7e77-4d00-833b-2615cf338dcd"
-                loading="lazy"
-                alt="img1"
-                className=" object-cover w-full h-full "
-              />
-            </div>
-          </Slider>
-
-          <div className="absolute top-1/2 left-4 transform -translate-y-1/2 z-20 text-left">
-            <span className="block text-lg md:text-2xl lg:text-3xl text-blue-900 font-mono">
-              <span className="text-3xl md:text-4xl lg:text-5xl">_______</span> OUR BESTSELLERS
-            </span>
-            <span className="block text-3xl md:text-5xl lg:text-7xl text-blue-950 font-mono leading-tight">
-              Latest Arrivals
-            </span>
-            <span className="block text-lg md:text-2xl lg:text-3xl text-blue-900 font-mono mt-2 md:mt-4">
-              SHOP NOW <span className="text-3xl md:text-4xl lg:text-5xl">_______</span>
-            </span>
           </div>
 
-
-
-        </div>
-        <div className='flex justify-center mt=2 p-2 space-x-2'>
-          <span className='md:text-4xl text-gray-500 font-mono'>LATEST
-          </span >
-          <span className='md:text-4xl text=bg-black font-mono'>COLLECTIONS</span>
-
-        </div>
-        <div className="flex justify-center text-shadow-black">
-          <span>
-            Explore our newest collection and be unique like our modern pieces
-
-          </span>
-        </div>
-
-        <div className="flex flex-wrap ">
-          {GetLATEST_COLLECTION.map((item) => (
-            <div
-              className='flex flex-col items-center  w-1/2 md:w-1/4 p-4   '
-              key={item.id}
+          {/* Latest Collections Section */}
+          <div className="py-16 px-4">
+            <motion.div
+              className="text-center mb-12"
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.5 }}
             >
-              <img
-                src={item.img}
-                className="w-full h-64 object-cover hover:cursor-pointer hover:scale-105 duration-200"
-                loading='lazy'
-                width={300}
-                height={300}
-                alt={item.name}
-              />
-              <div className="text-center w-full">
-                <p className='text-gray-700 font-medium'>{item.name}</p>
-                <p className='font-bold text-lg mt-1'>{item.price}</p>
-              </div>
+              <h2 className="text-3xl md:text-4xl font-bold mb-3 relative inline-block">
+                <span className="relative z-10">LATEST COLLECTIONS</span>
+                <span className="absolute -bottom-2 left-0 w-full h-1 bg-black/80"></span>
+              </h2>
+              <p className="text-gray-600 max-w-2xl mx-auto mt-4">
+                Explore our newest collection and be unique with our modern pieces crafted for your style
+              </p>
+            </motion.div>
+
+            {/* Latest Collection Items */}
+            <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+              {LATEST_COLLECTIONS.map((item) => (
+                <Link href={`/details/${item.id}`} key={item.id}>
+                  <motion.div
+                    className="group relative bg-white rounded-lg overflow-hidden shadow-sm hover:shadow-md transition-all duration-300"
+                    whileHover={{ y: -5 }}
+                    initial={{ opacity: 0, y: 20 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ duration: 0.3 }}
+                  >
+                    <div className="relative h-64 overflow-hidden">
+                      <img
+                        src={item.image.src}
+                        className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
+                        loading="lazy"
+                        alt={item.name}
+                      />
+                      <div className="absolute inset-0  bg-opacity-0 group-hover:bg-opacity-10 transition-all duration-300"></div>
+                      <div className="absolute bottom-0 left-0 right-0 p-4 bg-gradient-to-t from-black/60 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                        <button className="w-full bg-white text-black py-2 rounded-md font-medium text-sm">
+                          Quick View
+                        </button>
+                      </div>
+                    </div>
+                    <div className="p-4">
+                      <p className="text-gray-500 text-xs mb-1">{item.category || 'Fashion'}</p>
+                      <h3 className="font-medium text-gray-900 mb-1 truncate">{item.name}</h3>
+                      <p className="font-bold text-black">{item.price}</p>
+                    </div>
+                  </motion.div>
+                </Link>
+              ))}
             </div>
-          ))}
-        </div>
-        <div className='flex justify-center mt=2 p-2 space-x-2'>
-          <span className='md:text-4xl text-gray-500 font-mono'>BEST
 
-
-
-          </span >
-          <span className='md:text-4xl text=bg-black font-mono'>SELLERS</span>
-
-        </div>
-        <div className="flex justify-center text-shadow-black">
-          <span>
-            Explore our best collection and our people's favourite pieces
-
-          </span>
-        </div>
-
-        <div className="flex flex-wrap ">
-          {Bestsaller.map((item) => (
-            <div
-              className='flex flex-col items-center  w-1/2 md:w-1/4 p-4   '
-              key={item.id}
+            {/* Best Sellers Header */}
+            <motion.div
+              className="text-center mt-20 mb-12"
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.5 }}
             >
-              <img
-                src={item.img}
-                className="w-full h-64 object-cover hover:cursor-pointer hover:scale-105 duration-200"
-                loading='lazy'
-                width={300}
-                height={300}
-                alt={item.name}
-              />
-              <div className="text-center w-full">
-                <p className='text-gray-700 font-medium'>{item.name}</p>
-                <p className='font-bold text-lg mt-1'>{item.price}</p>
-              </div>
+              <h2 className="text-3xl md:text-4xl font-bold mb-3 relative inline-block">
+                <span className="relative z-10">BEST SELLERS</span>
+                <span className="absolute -bottom-2 left-0 w-full h-1 bg-black/80"></span>
+              </h2>
+              <p className="text-gray-600 max-w-2xl mx-auto mt-4">
+                Explore our most popular pieces loved by our customers
+              </p>
+            </motion.div>
+
+            {/* Best Sellers Items */}
+            <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+              {BestSaller.map((item) => (
+                <Link href={`/details/${item.id}`} key={item.id}>
+                  <motion.div
+                    className="group relative bg-white rounded-lg overflow-hidden shadow-sm hover:shadow-md transition-all duration-300"
+                    whileHover={{ y: -5 }}
+                    initial={{ opacity: 0, y: 20 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ duration: 0.3 }}
+                  >
+                    <div className="relative h-64 overflow-hidden">
+                      <img
+                        src={item.image.src}
+                        className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
+                        loading="lazy"
+                        alt={item.name}
+                      />
+                      <div className="absolute inset-0  bg-opacity-0 group-hover:bg-opacity-10 transition-all duration-300"></div>
+                      <div className="absolute top-0 right-0 m-3">
+                        <span className="bg-black text-white text-xs px-2 py-1 rounded">BEST SELLER</span>
+                      </div>
+                      <div className="absolute bottom-0 left-0 right-0 p-4 bg-gradient-to-t from-black/60 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                        <button className="w-full bg-white text-black py-2 rounded-md font-medium text-sm">
+                          Quick View
+                        </button>
+                      </div>
+                    </div>
+                    <div className="p-4">
+                      <h3 className="font-medium text-gray-900 mb-1 truncate">{item.name}</h3>
+                      <p className="font-bold text-black">{item.price}</p>
+                    </div>
+                  </motion.div>
+                </Link>
+              ))}
             </div>
-          ))}
+          </div>
         </div>
-
-      </div>
-
-      : <Loading />
-  )
-
-
-
-
-
+      ) : (
+        <Loading />
+      )}
+    </>
+  );
 }
+
+

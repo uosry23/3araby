@@ -46,7 +46,6 @@ function Nav() {
                     </ul>
 
                     <div className="flex items-center space-x-4">
-                        <IoMdSearch className="text-lg md:text-2xl" />
 
                         {user ? (
                             <div className="flex items-center space-x-3">

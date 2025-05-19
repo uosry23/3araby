@@ -96,7 +96,7 @@ function AuthPage() {
                 </form>
             ) : isLoginView ? (
                 <form onSubmit={handleLogin} className="flex flex-col gap-4 w-full max-w-md p-4">
-                    <h2 className="text-2xl font-bold text-center font-mono">Login</h2>
+                    <h2 className="text-2xl font-bold text-center font-mono">Login <span className='text-sm text-gray-600'> email(3Araby@gmail.com)&& pass(123456789)</span></h2>
                     <input
                         type="email"
                         placeholder="Email"
