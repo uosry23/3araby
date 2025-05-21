@@ -191,13 +191,20 @@ const page = () => {
                 </div>
                 <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6 md:ml-2 md:w-full mt-4">
                     {clothes.map((item) => (
-                        <Link href={`/details/${item.id}`} key={item.id}>
+                        <Link
+                            href={`/details/${item.id}`}
+                            key={item.id}
+                        // onClick={(e) => {
+                        //     // Optional: Show loading state immediately
+                        //     // setLoadingItemId(item.id);
+                        // }}
+                        >
                             <motion.div
                                 className="group relative bg-white rounded-lg overflow-hidden shadow-sm hover:shadow-md transition-all duration-300"
                                 whileHover={{ y: -5 }}
                                 initial={{ opacity: 0, y: 20 }}
                                 animate={{ opacity: 1, y: 0 }}
-                                transition={{ duration: 0.3 }}
+                                transition={{ duration: 0.3, ease: "easeOut" }}
                             >
                                 <div className="relative h-64 overflow-hidden">
                                     <img

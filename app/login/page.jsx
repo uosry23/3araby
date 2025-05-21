@@ -107,7 +107,6 @@ function AuthPage() {
                         className="w-full border-2 border-black h-10 p-2"
                         value={resetEmail}
                         onChange={(e) => setResetEmail(e.target.value)}
-                        required
                     />
                     <button
                         type="submit"

@@ -26,22 +26,22 @@ function Nav() {
                         <li
                             className="relative cursor-pointer after:absolute after:left-0 after:bottom-0 after:w-0 after:h-[2px] after:bg-black after:transition-all hover:after:w-full"
                         >
-                            <a href='/'>home</a>
+                            <Link href='/'>home</Link>
                         </li>
                         <li
                             className="relative cursor-pointer after:absolute after:left-0 after:bottom-0 after:w-0 after:h-[2px] after:bg-black after:transition-all hover:after:w-full"
                         >
-                            <a href='/collection'>Collection</a>
+                            <Link href='/collection'>Collection</Link>
                         </li>
                         <li
                             className="relative cursor-pointer after:absolute after:left-0 after:bottom-0 after:w-0 after:h-[2px] after:bg-black after:transition-all hover:after:w-full"
                         >
-                            <a href='/about'>About</a>
+                            <Link href='/about'>About</Link>
                         </li>
                         <li
                             className="relative cursor-pointer after:absolute after:left-0 after:bottom-0 after:w-0 after:h-[2px] after:bg-black after:transition-all hover:after:w-full"
                         >
-                            <a href='/contact'>contact</a>
+                            <Link href='/contact'>contact</Link>
                         </li>
                     </ul>
 

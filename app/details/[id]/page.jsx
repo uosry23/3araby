@@ -1,51 +1,40 @@
-
 'use client'
-import React, { useEffect, useState } from 'react'
+import React, { useState } from 'react'
 import { products } from '../../collection/getCollection'
-import { redirect, useParams } from 'next/navigation';
+import { useRouter, useParams } from 'next/navigation';
 import Loading from '@/component/loading';
 import { useCart } from '@/context/CartContext';
 import { toast } from 'react-hot-toast';
 import { getAuth } from 'firebase/auth';
 import { motion } from 'framer-motion';
-function page() {
+import { useMemo } from 'react';
+
+function Page() {
     const params = useParams();
+    const router = useRouter();
     const id = params?.id;
-    const [item, setItem] = useState({});
+    const item = useMemo(() => products.find(p => p.id == id) || {}, [id]);
     const [selectedSize, setSelectedSize] = useState('M');
     const [quantity, setQuantity] = useState(1);
     const [isAddingToCart, setIsAddingToCart] = useState(false);
     const { addToCart } = useCart();
-    const chekUser = getAuth()
+    const chekUser = getAuth();
 
     const sizes = ['S', 'M', 'L', 'XL', 'XXL'];
-    const getItem = () => {
-        const resultItem = products.filter((item) => {
-            return item.id == id
-        })
-        setItem(resultItem[0])
-    }
-    useEffect(() => {
-        getItem()
-        console.log(item && item.image);
 
-        // console.log(item);
-        // console.log(id);
-
-    }, [item])
     const handelAddTocart = () => {
-        console.log(chekUser.currentUser);
         if (chekUser.currentUser) {
-
             setIsAddingToCart(true);
-            setTimeout(() => {
-                addToCart(item, quantity, selectedSize);
-                setIsAddingToCart(false);
-            }, 500);
+            addToCart(item, quantity, selectedSize);
+            setIsAddingToCart(false);
+            toast.success('Added to cart!');
+        } else {
+            router.push('/login');
         }
-        else
-            redirect('/login')
-    }
+    };
+
+    if (!item.name) return <Loading />;
+
     return (
         item.name ? (
             <div className="py-12 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto">
@@ -107,8 +96,8 @@ function page() {
                                             key={size}
                                             onClick={() => setSelectedSize(size)}
                                             className={`w-12 h-12 flex items-center justify-center rounded-full border-2 transition-all duration-200 ${selectedSize === size
-                                                    ? 'border-black bg-black text-white'
-                                                    : 'border-gray-200 hover:border-gray-400'
+                                                ? 'border-black bg-black text-white'
+                                                : 'border-gray-200 hover:border-gray-400'
                                                 }`}
                                         >
                                             {size}
@@ -185,4 +174,4 @@ function page() {
     );
 }
 
-export default page
+export default Page;
