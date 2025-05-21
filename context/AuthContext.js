@@ -45,17 +45,18 @@ export const AuthProvider = ({ children }) => {
     }, []);
 
     // Sign up function
-    const signup = async (email, password, name) => {
+    const signup = async (email, password, name, phone) => {
         setLoading(true);
         setError('');
 
         try {
             const userCredential = await createUserWithEmailAndPassword(auth, email, password);
 
-            // Update profile with name
-            if (name) {
+            // Update profile with name and phone
+            if (name || phone) {
                 await updateProfile(userCredential.user, {
-                    displayName: name
+                    displayName: name,
+                    phoneNumber: phone // Note: Firebase may not directly support storing phone in user profile
                 });
             }
 

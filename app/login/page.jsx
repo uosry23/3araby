@@ -76,7 +76,7 @@ function AuthPage() {
         else if (password.length < 6) newErrors.password = "Password must be at least 6 characters";
         if (!email) newErrors.email = "email is required";
         setErrors(newErrors)
-        return Object.keys(newErrors) === 0
+        return Object.keys(newErrors).length === 0
     }
 
     const handleResetPassword = async (e) => {
@@ -167,7 +167,7 @@ function AuthPage() {
                     <input
                         type="text"
                         placeholder="Name"
-                        className={`w-full border-2${errors.name ? "border-red-500" : 'border-black'} h-10 p-2`}
+                        className={`w-full border-2 ${errors.name ? "border-red-500" : 'border-black'} h-10 p-2`}
                         value={name}
                         onChange={(e) => setName(e.target.value)}
 
@@ -176,7 +176,7 @@ function AuthPage() {
                     <input
                         type="email"
                         placeholder="Email"
-                        className={`w-full border-2${errors.email ? "border-red-500" : 'border-black'} h-10 p-2`}
+                        className={`w-full border-2 ${errors.email ? "border-red-500" : 'border-black'} h-10 p-2`}
                         value={email}
                         onChange={(e) => setEmail(e.target.value)}
 
@@ -186,7 +186,7 @@ function AuthPage() {
                     <input
                         type="password"
                         placeholder="Password"
-                        className={`w-full border-2${errors.password ? "border-red-500" : 'border-black'} h-10 p-2`}
+                        className={`w-full border-2 ${errors.password ? "border-red-500" : 'border-black'} h-10 p-2`}
                         value={password}
                         onChange={(e) => setPassword(e.target.value)}
 
@@ -196,7 +196,7 @@ function AuthPage() {
                     <input
                         type="tel"
                         placeholder="Phone number"
-                        className={`w-full border-2${errors.phone ? "border-red-500" : 'border-black'} h-10 p-2`}
+                        className={`w-full border-2 ${errors.phone ? "border-red-500" : 'border-black'} h-10 p-2`}
                         value={phone}
                         onChange={(e) => setPhone(e.target.value)}
                     />
