@@ -16,14 +16,13 @@ function AuthPage() {
 
     const [isLoginView, setIsLoginView] = useState(true);
     const [showResetForm, setShowResetForm] = useState(false);
-
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [name, setName] = useState('');
     const [phone, setPhone] = useState('');
     const [resetEmail, setResetEmail] = useState('');
     const [resetMessage, setResetMessage] = useState('');
-
+    const [errors, setErrors] = useState({});
     useEffect(() => {
         if (user) {
             router.push('/');
@@ -41,13 +40,44 @@ function AuthPage() {
 
     const handleLogin = async (e) => {
         e.preventDefault();
-        await login(email, password);
+        if (FormLoginValidation()) {
+            await login(email, password)
+        };
+
     };
 
     const handleSignup = async (e) => {
         e.preventDefault();
-        await signup(email, password, name, phone);
+        if (FormSignUpValidation()) { await signup(email, password, name, phone) };
     };
+    const FormSignUpValidation = () => {
+        const newErrors = {}
+        if (!isLoginView && !name) {
+            newErrors.name = "name is requird"
+        }
+        if (!isLoginView && !phone) {
+            newErrors.phone = "phone number is requird"
+        } else if (!/^\d{10,}$/.test(phone.replace(/\D/g, '')) && !isLoginView) {
+            newErrors.phone = "please enter a valid number"
+        }
+        if (!isLoginView && !email) {
+            newErrors.email = "email is requird"
+        } else if (!isLoginView && !/\S+@\S+\.\S+/.test(email)) {
+            newErrors.email = "Email is invalid"
+        }
+        if (!isLoginView && !password) newErrors.password = "Password is required";
+        else if (!isLoginView && password.length < 6) newErrors.password = "Password must be at least 6 characters";
+        setErrors(newErrors)
+        return Object.keys(newErrors).length === 0;
+    }
+    const FormLoginValidation = () => {
+        const newErrors = {}
+        if (!password) newErrors.password = "Password is required";
+        else if (password.length < 6) newErrors.password = "Password must be at least 6 characters";
+        if (!email) newErrors.email = "email is required";
+        setErrors(newErrors)
+        return Object.keys(newErrors) === 0
+    }
 
     const handleResetPassword = async (e) => {
         e.preventDefault();
@@ -95,24 +125,27 @@ function AuthPage() {
                     </button>
                 </form>
             ) : isLoginView ? (
+
                 <form onSubmit={handleLogin} className="flex flex-col gap-4 w-full max-w-md p-4">
                     <h2 className="text-2xl font-bold text-center font-mono">Login <span className='text-sm text-gray-600'> email(3Araby@gmail.com)&& pass(123456789)</span></h2>
                     <input
                         type="email"
                         placeholder="Email"
-                        className="w-full border-2 border-black h-10 p-2"
-                        value={email}
+                        className={`w-full border-2 ${errors.email ? 'border-red-500' : 'border-black'} h-10 p-2`} value={email}
                         onChange={(e) => setEmail(e.target.value)}
-                        required
+
                     />
+                    {errors.email && <p className="text-red-500 text-sm mt-1">{errors.email}</p>}
                     <input
                         type="password"
                         placeholder="Password"
-                        className="w-full border-2 border-black h-10 p-2"
+                        className={`w-full border-2 ${errors.password ? 'border-red-500' : 'border-black'} h-10 p-2`}
+
                         value={password}
                         onChange={(e) => setPassword(e.target.value)}
-                        required
+
                     />
+                    {errors.password && <p className='text-red-500 text-sm mt-1'>{errors.password}</p>}
                     <div className="flex justify-between">
                         <button type="button" onClick={() => setShowResetForm(true)} className="text-blue-600 hover:underline">
                             Forgot password?
@@ -135,34 +168,41 @@ function AuthPage() {
                     <input
                         type="text"
                         placeholder="Name"
-                        className="w-full border-2 border-black h-10 p-2"
+                        className={`w-full border-2${errors.name ? "border-red-500" : 'border-black'} h-10 p-2`}
                         value={name}
                         onChange={(e) => setName(e.target.value)}
-                        required
+
                     />
+                    {errors.name && <p className='mt-1 text-red-500 text-sm'>{errors.name}</p>}
                     <input
                         type="email"
                         placeholder="Email"
-                        className="w-full border-2 border-black h-10 p-2"
+                        className={`w-full border-2${errors.email ? "border-red-500" : 'border-black'} h-10 p-2`}
                         value={email}
                         onChange={(e) => setEmail(e.target.value)}
-                        required
+
                     />
+                    {errors.email && <p className='mt-1 text-red-500 text-sm'>{errors.email}</p>}
+
                     <input
                         type="password"
                         placeholder="Password"
-                        className="w-full border-2 border-black h-10 p-2"
+                        className={`w-full border-2${errors.password ? "border-red-500" : 'border-black'} h-10 p-2`}
                         value={password}
                         onChange={(e) => setPassword(e.target.value)}
-                        required
+
                     />
+                    {errors.password && <p className='mt-1 text-red-500 text-sm'>{errors.password}</p>}
+
                     <input
                         type="tel"
                         placeholder="Phone number"
-                        className="w-full border-2 border-black h-10 p-2"
+                        className={`w-full border-2${errors.phone ? "border-red-500" : 'border-black'} h-10 p-2`}
                         value={phone}
                         onChange={(e) => setPhone(e.target.value)}
                     />
+                    {errors.phone && <p className='mt-1 text-red-500 text-sm'>{errors.phone}</p>}
+
                     <button type="button" onClick={toggleView} className="text-blue-600 hover:underline">
                         Already have an account?
                     </button>
